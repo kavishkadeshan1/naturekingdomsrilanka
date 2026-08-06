@@ -115,13 +115,13 @@ export default function Navbar({ onBookingOpen }: NavbarProps) {
           right: 0,
           zIndex: 900,
           transition: 'all 0.4s ease',
-          background: scrolled
+          background: (scrolled || mobileOpen)
             ? 'rgba(15, 42, 31, 0.97)'
             : 'transparent',
-          backdropFilter: scrolled ? 'blur(20px)' : 'none',
-          WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'none',
-          borderBottom: scrolled ? '1px solid rgba(201,169,110,0.2)' : 'none',
-          padding: scrolled ? '0.75rem 0' : '1.25rem 0',
+          backdropFilter: (scrolled || mobileOpen) ? 'blur(20px)' : 'none',
+          WebkitBackdropFilter: (scrolled || mobileOpen) ? 'blur(20px)' : 'none',
+          borderBottom: (scrolled || mobileOpen) ? '1px solid rgba(201,169,110,0.2)' : 'none',
+          padding: (scrolled || mobileOpen) ? '0.75rem 0' : '1.25rem 0',
         }}
       >
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -237,20 +237,27 @@ export default function Navbar({ onBookingOpen }: NavbarProps) {
               border: '1px solid',
               borderColor: mobileOpen ? 'rgba(201,169,110,0.4)' : 'transparent',
               borderRadius: '6px',
-              cursor: 'pointer', color: 'white', padding: '0.4rem', display: 'none',
+              cursor: 'pointer', 
+              color: 'white', 
+              padding: '0.6rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
               transition: 'all 0.2s ease',
             }}
-            className="show-mobile"
+            className="show-mobile-flex"
             aria-label="Toggle menu"
           >
-            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+            <div style={{ pointerEvents: 'none', display: 'flex' }}>
+              {mobileOpen ? <X size={28} /> : <Menu size={28} />}
+            </div>
           </button>
         </div>
 
         {/* Mobile Menu */}
         <div style={{
           background: 'rgba(11, 32, 22, 0.99)',
-          borderTop: '1px solid rgba(201,169,110,0.15)',
+          borderTop: mobileOpen ? '1px solid rgba(201,169,110,0.15)' : 'none',
           overflow: 'hidden',
           maxHeight: mobileOpen ? '600px' : '0px',
           transition: 'max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
