@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Clock4, Waves, ChefHat, Sprout, MapPin, Gift } from 'lucide-react';
+import { Clock4, Waves, ChefHat, Sprout, MapPin, Gift, Bike, Bird } from 'lucide-react';
 
 const activities = [
   {
@@ -7,7 +7,7 @@ const activities = [
     duration: '3 hours',
     icon: <MapPin size={22} />,
     description: 'Explore the unspoiled beauty of the surrounding wilderness. Encounter native flora and fauna in their natural habitat.',
-    image: '/images/IMG-20260805-WA0011.jpg',
+    image: '/images/hiking.jpg',
     color: '#2D6A4F',
   },
   {
@@ -15,7 +15,7 @@ const activities = [
     duration: '7:00 AM – 10:00 AM',
     icon: <Waves size={22} />,
     description: 'Experience tranquility on the water. Paddle across the calm lake and enjoy traditional fishing with local guidance.',
-    image: '/images/IMG-20260805-WA0013.jpg',
+    image: '/images/RowingandFishing1.jpg',
     color: '#1B4332',
   },
   {
@@ -23,7 +23,7 @@ const activities = [
     duration: '11:00 AM – 1:00 PM',
     icon: <ChefHat size={22} />,
     description: 'Learn the secrets of authentic Sri Lankan cuisine using fresh, locally sourced ingredients from our very own organic farm.',
-    image: '/images/IMG-20260805-WA0023.jpg',
+    image: '/images/Cookiing-1-1024x685.jpg',
     color: '#2D6A4F',
   },
   {
@@ -31,7 +31,23 @@ const activities = [
     duration: 'Morning & Evening',
     icon: <Sprout size={22} />,
     description: 'Get hands-on experience in traditional Sri Lankan farming practices. Connect with the earth and learn sustainable agriculture.',
-    image: '/images/IMG-20260805-WA0026.jpg',
+    image: '/images/agriculture.jpg',
+    color: '#1B4332',
+  },
+  {
+    title: 'Bicycle Tour',
+    duration: 'Flexible',
+    icon: <Bike size={22} />,
+    description: 'Ride through scenic village trails, paddy fields, and lush greenery. A perfect way to explore the local countryside at your own pace.',
+    image: '/images/bicycletour.jpg',
+    color: '#2D6A4F',
+  },
+  {
+    title: 'Bird Watching',
+    duration: 'Early Morning',
+    icon: <Bird size={22} />,
+    description: 'Discover the rich avian life of Sri Lanka. Spot endemic and migratory birds in their natural habitats with our expert guides.',
+    image: '/images/birdwatching.jpg',
     color: '#1B4332',
   },
 ];
@@ -50,22 +66,25 @@ export default function ActivitiesSection() {
   }, []);
 
   return (
-    <section id="activities" style={{ padding: '7rem 2rem', backgroundColor: '#FAF8F0' }} ref={ref}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+    <section id="activities" style={{ padding: '8rem 2rem', backgroundColor: '#F9F7F1', position: 'relative', overflow: 'hidden' }} ref={ref}>
+      {/* Decorative background elements */}
+      <div style={{ position: 'absolute', top: '-10%', right: '-5%', width: '400px', height: '400px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(216,243,220,0.4) 0%, transparent 70%)', zIndex: 0 }} />
+      <div style={{ position: 'absolute', bottom: '-10%', left: '-5%', width: '500px', height: '500px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(201,169,110,0.15) 0%, transparent 70%)', zIndex: 0 }} />
+
+      <div style={{ maxWidth: '1280px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         
         <div style={{
           textAlign: 'center',
-          marginBottom: '4rem',
+          marginBottom: '5rem',
           opacity: visible ? 1 : 0,
-          transform: visible ? 'translateY(0)' : 'translateY(24px)',
-          transition: 'opacity 0.7s ease, transform 0.7s ease',
+          transform: visible ? 'translateY(0)' : 'translateY(30px)',
+          transition: 'opacity 0.8s ease, transform 0.8s ease',
         }}>
-          <span className="section-label">Guest Experiences</span>
-          <div className="ornament-divider" style={{ maxWidth: '280px', margin: '1rem auto' }} />
-          <h2 className="section-title" style={{ color: '#1B4332' }}>
+          <span className="section-label" style={{ padding: '0.5rem 1.2rem', backgroundColor: 'white', borderRadius: '30px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)', display: 'inline-block', marginBottom: '1.5rem' }}>Guest Experiences</span>
+          <h2 className="section-title" style={{ color: '#1B4332', fontSize: '3.5rem', marginBottom: '1.5rem' }}>
             Immersive <span className="gradient-text">Experiences</span>
           </h2>
-          <p className="section-subtitle" style={{ marginTop: '0.75rem', maxWidth: '600px', margin: '0.75rem auto 0' }}>
+          <p className="section-subtitle" style={{ maxWidth: '650px', margin: '0 auto', fontSize: '1.1rem', color: '#555', lineHeight: '1.7' }}>
             All our activities are carefully curated to connect you deeply with nature and Sri Lankan culture.
           </p>
 
@@ -73,131 +92,185 @@ export default function ActivitiesSection() {
           <div style={{
             display: 'inline-flex',
             alignItems: 'center',
-            gap: '0.6rem',
-            marginTop: '1.25rem',
-            padding: '0.6rem 1.5rem',
+            gap: '0.8rem',
+            marginTop: '2rem',
+            padding: '0.8rem 2rem',
             background: 'linear-gradient(135deg, #1B4332, #2D6A4F)',
-            borderRadius: '30px',
-            boxShadow: '0 8px 24px rgba(27, 67, 50, 0.2)',
-          }}>
-            <Gift size={15} color="#C9A96E" />
-            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'white' }}>
+            borderRadius: '40px',
+            boxShadow: '0 10px 30px rgba(27, 67, 50, 0.25)',
+            transform: 'scale(1)',
+            transition: 'transform 0.3s ease',
+          }}
+          onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.transform = 'scale(1.05)'; }}
+          onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = 'scale(1)'; }}
+          >
+            <Gift size={18} color="#C9A96E" />
+            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'white' }}>
               All Activities Included Free for Guests
             </span>
-            <Gift size={15} color="#C9A96E" />
+            <Gift size={18} color="#C9A96E" />
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(270px, 1fr))', gap: '1.75rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2.5rem' }}>
           {activities.map((activity, index) => (
             <div
               key={index}
               style={{
                 backgroundColor: 'white',
-                borderRadius: '4px',
+                borderRadius: '16px',
                 overflow: 'hidden',
-                boxShadow: '0 4px 24px rgba(27, 67, 50, 0.06)',
-                border: '1px solid rgba(216, 243, 220, 0.5)',
-                transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                boxShadow: '0 10px 40px rgba(0, 0, 0, 0.04)',
+                border: '1px solid rgba(255,255,255,0.8)',
                 cursor: 'pointer',
-                willChange: 'transform',
                 opacity: visible ? 1 : 0,
-                transform: visible ? 'translateY(0)' : 'translateY(32px)',
+                transform: visible ? 'translateY(0)' : 'translateY(40px)',
+                transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
                 transitionDelay: `${0.1 + index * 0.1}s`,
+                display: 'flex',
+                flexDirection: 'column',
               }}
               onMouseEnter={(e) => {
                 const el = e.currentTarget as HTMLElement;
-                el.style.transform = 'translateY(-12px)';
-                el.style.boxShadow = '0 32px 60px rgba(27, 67, 50, 0.12)';
-                el.style.borderColor = 'rgba(201, 169, 110, 0.3)';
+                el.style.transform = 'translateY(-15px)';
+                el.style.boxShadow = '0 20px 50px rgba(27, 67, 50, 0.15)';
+                const img = el.querySelector('img');
+                if (img) img.style.transform = 'scale(1.05)';
               }}
               onMouseLeave={(e) => {
                 const el = e.currentTarget as HTMLElement;
                 el.style.transform = 'translateY(0)';
-                el.style.boxShadow = '0 4px 24px rgba(27, 67, 50, 0.06)';
-                el.style.borderColor = 'rgba(216, 243, 220, 0.5)';
+                el.style.boxShadow = '0 10px 40px rgba(0, 0, 0, 0.04)';
+                const img = el.querySelector('img');
+                if (img) img.style.transform = 'scale(1)';
               }}
             >
-              {/* Image */}
-              <div style={{ height: '210px', position: 'relative', overflow: 'hidden' }}>
+              {/* Image Section */}
+              <div style={{ height: '240px', position: 'relative', overflow: 'hidden' }}>
                 <img
                   src={activity.image}
                   alt={activity.title}
                   style={{
                     width: '100%', height: '100%', objectFit: 'cover',
-                    transition: 'transform 0.7s ease',
+                    transition: 'transform 0.8s ease',
                     display: 'block',
                   }}
-                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.transform = 'scale(1.08)'; }}
-                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = 'scale(1)'; }}
                 />
-                {/* Gradient overlay */}
+                {/* Subtle gradient overlay to ensure badge visibility */}
                 <div style={{
                   position: 'absolute', inset: 0,
-                  background: 'linear-gradient(180deg, transparent 40%, rgba(27, 67, 50, 0.75) 100%)',
+                  background: 'linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 60%)',
                 }} />
+                
                 {/* Duration badge */}
                 <div style={{
                   position: 'absolute',
-                  bottom: '0.85rem',
-                  left: '0.85rem',
+                  bottom: '1rem',
+                  left: '1rem',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.35rem',
-                  background: 'rgba(15, 42, 31, 0.85)',
-                  backdropFilter: 'blur(6px)',
-                  color: '#C9A96E',
-                  padding: '0.3rem 0.75rem',
-                  fontSize: '0.7rem',
-                  fontWeight: 600,
+                  gap: '0.4rem',
+                  background: 'rgba(255, 255, 255, 0.95)',
+                  backdropFilter: 'blur(10px)',
+                  color: '#1B4332',
+                  padding: '0.4rem 0.8rem',
+                  fontSize: '0.75rem',
+                  fontWeight: 700,
                   letterSpacing: '0.05em',
-                  borderRadius: '2px',
-                  border: '1px solid rgba(201, 169, 110, 0.3)',
+                  borderRadius: '30px',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
                 }}>
-                  <Clock4 size={11} color="#C9A96E" />
+                  <Clock4 size={14} color="#C9A96E" />
                   {activity.duration}
                 </div>
+                
                 {/* Free badge */}
                 <div style={{
                   position: 'absolute',
-                  top: '0.85rem',
-                  right: '0.85rem',
+                  top: '1rem',
+                  right: '1rem',
+                  background: '#C9A96E',
+                  color: 'white',
+                  padding: '0.3rem 0.8rem',
+                  borderRadius: '20px',
+                  fontSize: '0.7rem',
+                  fontWeight: 800,
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  boxShadow: '0 4px 12px rgba(201, 169, 110, 0.4)',
                 }}>
-                  <span className="free-badge">Free</span>
+                  Free
                 </div>
               </div>
 
-              {/* Content */}
-              <div style={{ padding: '1.5rem' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem' }}>
-                  <div style={{
-                    width: '42px', height: '42px',
-                    background: 'linear-gradient(135deg, #D8F3DC, #B7E4C7)',
-                    borderRadius: '50%',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    color: '#1B4332',
-                    flexShrink: 0,
-                  }}>
-                    {activity.icon}
-                  </div>
-                  <h3 style={{
-                    fontFamily: 'Playfair Display, serif',
-                    fontSize: '1.1rem',
-                    fontWeight: 600,
-                    color: '#1B4332',
-                    lineHeight: 1.3,
-                  }}>
-                    {activity.title}
-                  </h3>
+              {/* Content Section */}
+              <div style={{ padding: '2rem 1.5rem', display: 'flex', flexDirection: 'column', flexGrow: 1, position: 'relative' }}>
+                <div style={{
+                  position: 'absolute',
+                  top: '-25px',
+                  right: '20px',
+                  width: '50px',
+                  height: '50px',
+                  background: 'white',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 5px 15px rgba(0,0,0,0.08)',
+                  color: activity.color,
+                }}>
+                  {activity.icon}
                 </div>
-                <p style={{ fontSize: '0.85rem', color: '#6B7280', lineHeight: 1.65 }}>
+
+                <h3 style={{
+                  fontFamily: 'Playfair Display, serif',
+                  fontSize: '1.4rem',
+                  fontWeight: 700,
+                  color: '#1B4332',
+                  marginBottom: '1rem',
+                  lineHeight: 1.3,
+                  paddingRight: '40px', // Prevent text from overlapping the floating icon
+                }}>
+                  {activity.title}
+                </h3>
+                
+                <div style={{ width: '40px', height: '2px', background: '#C9A96E', marginBottom: '1rem' }} />
+
+                <p style={{ 
+                  fontSize: '0.95rem', 
+                  color: '#555', 
+                  lineHeight: 1.7,
+                  flexGrow: 1 
+                }}>
                   {activity.description}
                 </p>
+                
+                <div style={{ 
+                  marginTop: '1.5rem',
+                  fontSize: '0.85rem',
+                  fontWeight: 600,
+                  color: activity.color,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  transition: 'gap 0.3s ease',
+                }}
+                className="explore-more-btn"
+                >
+                  Discover More <span style={{ transition: 'transform 0.3s ease' }}>→</span>
+                </div>
               </div>
             </div>
           ))}
         </div>
       </div>
+      
+      {/* Global styles for the hover effect on the text */}
+      <style>{`
+        .explore-more-btn:hover { gap: 0.8rem !important; }
+      `}</style>
     </section>
   );
 }
