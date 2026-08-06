@@ -6,7 +6,7 @@ import StatsCounter from '../components/StatsCounter';
 import AboutSection from '../components/AboutSection';
 import AccommodationGrid from '../components/AccommodationGrid';
 import ActivitiesSection from '../components/ActivitiesSection';
-import CSRSection from '../components/CSRSection';
+import HomeGallerySection from '../components/HomeGallerySection';
 import LocationSection from '../components/LocationSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import ContactSection from '../components/ContactSection';
@@ -74,7 +74,7 @@ export default function HomePage() {
         <AboutSection />
         <AccommodationGrid onBookingOpen={handleBookingOpen} />
         <ActivitiesSection />
-        <CSRSection />
+        <HomeGallerySection />
         <LocationSection />
         <TestimonialsSection />
         <ContactSection />

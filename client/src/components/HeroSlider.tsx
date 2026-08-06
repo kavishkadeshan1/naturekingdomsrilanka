@@ -624,13 +624,13 @@ export default function HeroSlider({ onBookingOpen }: HeroSliderProps) {
           opacity: 0.7,
           transition: 'opacity 0.3s ease',
         }}
-        onClick={() => {
-          const nextSection = document.querySelector('#home + section, #home ~ section');
-          if (nextSection) nextSection.scrollIntoView({ behavior: 'smooth' });
-          else window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
-        }}
-        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.opacity = '1'; }}
-        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.opacity = '0.7'; }}
+          onClick={() => {
+            const nextSection = document.querySelector('#home + section, #home ~ section');
+            if (nextSection) nextSection.scrollIntoView({ behavior: 'smooth' });
+            else window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+          }}
+          onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.opacity = '1'; }}
+          onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.opacity = '0.7'; }}
         >
           <span style={{
             fontFamily: "'Inter', sans-serif",

@@ -1,18 +1,18 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Menu, X, Leaf, Phone } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface NavbarProps {
   onBookingOpen: () => void;
 }
 
 const navLinks = [
-  { label: 'Home', href: '#home' },
-  { label: 'Accommodation', href: '#accommodation' },
-  { label: 'Wellness', href: '#wellness' },
-  { label: 'Organic Farm', href: '#farm' },
-  { label: 'Our Mission', href: '#mission' },
-  { label: 'Location', href: '#location' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Home', href: '/#home', id: '#home' },
+  { label: 'Accommodation', href: '/#accommodation', id: '#accommodation' },
+  { label: 'Our Mission', href: '/#mission', id: '#mission' },
+  { label: 'Gallery', href: '/gallery', id: '/gallery' },
+  { label: 'Location', href: '/#location', id: '#location' },
+  { label: 'Contact', href: '/#contact', id: '#contact' },
 ];
 
 export default function Navbar({ onBookingOpen }: NavbarProps) {
@@ -20,6 +20,9 @@ export default function Navbar({ onBookingOpen }: NavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeLink, setActiveLink] = useState('#home');
   const observerRef = useRef<IntersectionObserver | null>(null);
+  
+  const location = useLocation();
+  const navigate = useNavigate();
 
   // Scroll detection
   useEffect(() => {
@@ -28,9 +31,25 @@ export default function Navbar({ onBookingOpen }: NavbarProps) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // IntersectionObserver for active link detection
+  // Update active link based on current route
   useEffect(() => {
-    const sectionIds = navLinks.map(l => l.href.replace('#', ''));
+    if (location.pathname === '/gallery') {
+      setActiveLink('/gallery');
+    } else {
+      // If we're on home, hash dictates active link
+      if (location.hash) {
+        setActiveLink(location.hash);
+      } else {
+        setActiveLink('#home');
+      }
+    }
+  }, [location]);
+
+  // IntersectionObserver for active link detection (only on home page)
+  useEffect(() => {
+    if (location.pathname !== '/') return;
+
+    const sectionIds = navLinks.filter(l => l.id.startsWith('#')).map(l => l.id.replace('#', ''));
     const sections = sectionIds
       .map(id => document.getElementById(id))
       .filter(Boolean) as HTMLElement[];
@@ -48,7 +67,7 @@ export default function Navbar({ onBookingOpen }: NavbarProps) {
 
     sections.forEach(s => observerRef.current?.observe(s));
     return () => observerRef.current?.disconnect();
-  }, []);
+  }, [location.pathname]);
 
   // Close mobile menu on outside click
   useEffect(() => {
@@ -61,16 +80,30 @@ export default function Navbar({ onBookingOpen }: NavbarProps) {
     return () => document.removeEventListener('click', handler);
   }, [mobileOpen]);
 
-  const handleNavClick = useCallback((href: string) => {
-    setActiveLink(href);
+  const handleNavClick = useCallback((href: string, id: string) => {
+    setActiveLink(id);
     setMobileOpen(false);
-    const el = document.querySelector(href);
-    if (el) {
-      const offset = 80;
-      const top = el.getBoundingClientRect().top + window.scrollY - offset;
-      window.scrollTo({ top, behavior: 'smooth' });
+    
+    if (href.startsWith('/#')) {
+      const targetId = href.replace('/#', '#');
+      if (location.pathname !== '/') {
+        // Navigate to home page with hash
+        navigate(href);
+      } else {
+        // Already on home, just scroll
+        const el = document.querySelector(targetId);
+        if (el) {
+          const offset = 80;
+          const top = el.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      }
+    } else {
+      // Direct navigation (e.g., /gallery)
+      navigate(href);
+      window.scrollTo(0, 0);
     }
-  }, []);
+  }, [location.pathname, navigate]);
 
   return (
     <>
@@ -94,7 +127,7 @@ export default function Navbar({ onBookingOpen }: NavbarProps) {
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           {/* Logo */}
           <button
-            onClick={() => handleNavClick('#home')}
+            onClick={() => handleNavClick('/#home', '#home')}
             style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', background: 'none', border: 'none', cursor: 'pointer' }}
           >
             <div style={{
@@ -135,11 +168,11 @@ export default function Navbar({ onBookingOpen }: NavbarProps) {
           <ul style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', listStyle: 'none', margin: 0, padding: 0 }}
               className="hidden-mobile">
             {navLinks.map((link) => {
-              const isActive = activeLink === link.href;
+              const isActive = activeLink === link.id;
               return (
                 <li key={link.href} style={{ position: 'relative' }}>
                   <button
-                    onClick={() => handleNavClick(link.href)}
+                    onClick={() => handleNavClick(link.href, link.id)}
                     style={{
                       background: 'none',
                       border: 'none',
@@ -225,11 +258,11 @@ export default function Navbar({ onBookingOpen }: NavbarProps) {
           <div style={{ padding: '1rem 2rem 2rem' }}>
             <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '0.1rem' }}>
               {navLinks.map((link) => {
-                const isActive = activeLink === link.href;
+                const isActive = activeLink === link.id;
                 return (
                   <li key={link.href}>
                     <button
-                      onClick={() => handleNavClick(link.href)}
+                      onClick={() => handleNavClick(link.href, link.id)}
                       style={{
                         background: isActive ? 'rgba(201, 169, 110, 0.08)' : 'none',
                         border: 'none',
