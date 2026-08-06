@@ -171,20 +171,20 @@ export default function Footer() {
               <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
                 <Phone size={15} color="#C9A96E" style={{ flexShrink: 0 }} />
                 <div>
-                  <a href="tel:+94112345678" style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.55)', textDecoration: 'none', display: 'block', transition: 'color 0.2s' }}
+                  <a href="tel:+94701530350" style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.55)', textDecoration: 'none', display: 'block', transition: 'color 0.2s' }}
                     onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = '#C9A96E'; }}
                     onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.55)'; }}>
-                    +94 11 234 5678
+                    +94 70 153 0350
                   </a>
                   <span style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.3)' }}>Emergency & General</span>
                 </div>
               </div>
               <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
                 <Mail size={15} color="#C9A96E" style={{ flexShrink: 0 }} />
-                <a href="mailto:info@naturekingdomsrilanka.com" style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.55)', textDecoration: 'none', wordBreak: 'break-all', transition: 'color 0.2s' }}
+                <a href="mailto:naturekingdomsrilanka@gmail.com" style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.55)', textDecoration: 'none', wordBreak: 'break-all', transition: 'color 0.2s' }}
                   onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = '#C9A96E'; }}
                   onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.55)'; }}>
-                  info@naturekingdomsrilanka.com
+                  naturekingdomsrilanka@gmail.com
                 </a>
               </div>
             </div>
@@ -275,7 +275,7 @@ export default function Footer() {
 
       {/* WhatsApp float */}
       <a
-        href="https://wa.me/94112345678?text=Hello%20Nature%20Kingdom!%20I%20would%20like%20to%20inquire%20about%20a%20retreat."
+        href="https://wa.me/94701530350?text=Hello%20Nature%20Kingdom!%20I%20would%20like%20to%20inquire%20about%20a%20retreat."
         target="_blank"
         rel="noopener noreferrer"
         className="whatsapp-float"

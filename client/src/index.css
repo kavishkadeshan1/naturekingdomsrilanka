@@ -52,7 +52,9 @@ body {
   border-radius: 3px;
 }
 
-/* Animations */
+/* ============================================
+   ANIMATIONS
+   ============================================ */
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
@@ -98,6 +100,33 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes kenBurns {
+  0% { transform: scale(1) translate(0, 0); }
+  100% { transform: scale(1.08) translate(-1%, -1%); }
+}
+
+@keyframes progressFill {
+  from { width: 0%; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(100px); opacity: 0; }
+}
+
+@keyframes backToTopPulse {
+  0%, 100% { box-shadow: 0 4px 20px rgba(27, 67, 50, 0.3); }
+  50% { box-shadow: 0 4px 30px rgba(27, 67, 50, 0.55); }
+}
+
+/* ============================================
+   ANIMATION UTILITY CLASSES
+   ============================================ */
 .animate-fade-in-up {
   animation: fadeInUp 0.8s ease-out forwards;
 }
@@ -126,7 +155,9 @@ body {
   animation: pulse-glow 2s ease-in-out infinite;
 }
 
-/* Intersection Observer triggered animations */
+/* ============================================
+   INTERSECTION OBSERVER REVEAL CLASSES
+   ============================================ */
 .reveal {
   opacity: 0;
   transform: translateY(30px);
@@ -160,7 +191,9 @@ body {
   transform: translateX(0);
 }
 
-/* Gradient text */
+/* ============================================
+   TYPOGRAPHY UTILITIES
+   ============================================ */
 .gradient-text {
   background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-light) 50%, var(--color-gold) 100%);
   -webkit-background-clip: text;
@@ -215,7 +248,9 @@ body {
   color: var(--color-gold);
 }
 
-/* Buttons */
+/* ============================================
+   BUTTONS
+   ============================================ */
 .btn-primary {
   display: inline-flex;
   align-items: center;
@@ -233,6 +268,7 @@ body {
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  will-change: transform;
 }
 
 .btn-primary::after {
@@ -256,6 +292,11 @@ body {
   letter-spacing: 0.1em;
 }
 
+.btn-primary:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
 .btn-outline {
   display: inline-flex;
   align-items: center;
@@ -271,6 +312,7 @@ body {
   text-transform: uppercase;
   cursor: pointer;
   transition: all 0.3s ease;
+  will-change: transform;
 }
 
 .btn-outline:hover {
@@ -279,6 +321,11 @@ body {
   transform: translateY(-3px);
   box-shadow: 0 16px 32px rgba(201, 169, 110, 0.35), 0 4px 12px rgba(0,0,0,0.1);
   border-color: var(--color-gold);
+}
+
+.btn-outline:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
 }
 
 .btn-white {
@@ -296,6 +343,7 @@ body {
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
+  will-change: transform;
 }
 
 .btn-white:hover {
@@ -304,9 +352,12 @@ body {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
-/* Card hover effect */
+/* ============================================
+   CARD & IMAGE EFFECTS
+   ============================================ */
 .card-hover {
   transition: transform 0.35s ease, box-shadow 0.35s ease;
+  will-change: transform;
 }
 
 .card-hover:hover {
@@ -314,7 +365,6 @@ body {
   box-shadow: 0 32px 64px rgba(27, 67, 50, 0.12), 0 8px 24px rgba(0,0,0,0.04);
 }
 
-/* Image overlay */
 .img-overlay {
   position: relative;
   overflow: hidden;
@@ -343,7 +393,14 @@ body {
   transform: scale(1.08);
 }
 
-/* Divider */
+/* Ken Burns effect */
+.ken-burns {
+  animation: kenBurns 8s ease-in-out alternate infinite;
+}
+
+/* ============================================
+   DIVIDERS & DECORATORS
+   ============================================ */
 .ornament-divider {
   display: flex;
   align-items: center;
@@ -359,7 +416,6 @@ body {
   background: linear-gradient(90deg, transparent, var(--color-gold-light), transparent);
 }
 
-/* Parallax container */
 .parallax-bg {
   background-attachment: fixed;
   background-position: center;
@@ -367,11 +423,15 @@ body {
   background-size: cover;
 }
 
+/* ============================================
+   FLOATING UI ELEMENTS
+   ============================================ */
+
 /* WhatsApp floating button */
 .whatsapp-float {
   position: fixed;
-  bottom: 2rem;
-  right: 2rem;
+  bottom: 6rem;
+  right: 1.5rem;
   z-index: 999;
   width: 56px;
   height: 56px;
@@ -384,14 +444,109 @@ body {
   cursor: pointer;
   transition: all 0.3s ease;
   text-decoration: none;
+  will-change: transform;
 }
 
 .whatsapp-float:hover {
-  transform: scale(1.1);
+  transform: scale(1.12);
   box-shadow: 0 8px 30px rgba(37, 211, 102, 0.6);
 }
 
-/* Modal overlay */
+/* Scroll progress bar */
+.scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-forest), var(--color-sage), var(--color-gold));
+  z-index: 9999;
+  transition: width 0.1s linear;
+  border-radius: 0 2px 2px 0;
+}
+
+/* Back to top button */
+.back-to-top {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 998;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1B4332, #2D6A4F);
+  border: 1.5px solid rgba(201, 169, 110, 0.4);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  animation: backToTopPulse 2.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.back-to-top:hover {
+  transform: translateY(-4px) scale(1.08);
+  box-shadow: 0 12px 28px rgba(27, 67, 50, 0.4);
+  border-color: rgba(201, 169, 110, 0.7);
+}
+
+.back-to-top.entering {
+  animation: slideUp 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.back-to-top.leaving {
+  animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Floating Book Bar */
+.floating-book-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 997;
+  background: rgba(15, 42, 31, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(201, 169, 110, 0.25);
+  padding: 0.875rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.floating-book-bar.visible {
+  transform: translateY(0);
+}
+
+.floating-book-bar-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.floating-book-bar-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  line-height: 1.2;
+}
+
+.floating-book-bar-sub {
+  font-size: 0.72rem;
+  color: rgba(201, 169, 110, 0.85);
+  letter-spacing: 0.08em;
+  margin-top: 0.1rem;
+}
+
+/* ============================================
+   MODAL
+   ============================================ */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -405,7 +560,9 @@ body {
   animation: fadeIn 0.25s ease;
 }
 
-/* Form inputs */
+/* ============================================
+   FORM INPUTS
+   ============================================ */
 .form-input {
   width: 100%;
   padding: 0.75rem 1rem;
@@ -431,16 +588,76 @@ body {
   padding-right: 2.5rem;
 }
 
-/* Star rating */
+/* ============================================
+   MISC
+   ============================================ */
 .stars {
   color: var(--color-gold);
   font-size: 1rem;
   letter-spacing: 2px;
 }
 
-/* Nature leaf decorators */
 .leaf-decorator {
   position: absolute;
   opacity: 0.08;
   pointer-events: none;
+}
+
+/* Free badge */
+.free-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: linear-gradient(135deg, #C9A96E, #A67C52);
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.65rem;
+  border-radius: 20px;
+}
+
+/* ============================================
+   RESPONSIVE UTILITIES
+   ============================================ */
+@media (max-width: 900px) {
+  .hidden-mobile { display: none !important; }
+  .show-mobile { display: block !important; }
+
+  .floating-book-bar {
+    padding: 0.75rem 1rem;
+  }
+
+  .floating-book-bar-title {
+    font-size: 0.875rem;
+  }
+
+  .whatsapp-float {
+    bottom: 5rem;
+    right: 1rem;
+    width: 50px;
+    height: 50px;
+  }
+
+  .back-to-top {
+    bottom: 1rem;
+    right: 1rem;
+  }
+}
+
+@media (min-width: 901px) {
+  .show-mobile { display: none !important; }
+  
+  /* On desktop no floating book bar — enough nav CTA */
+  .floating-book-bar {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .floating-book-bar-sub {
+    display: none;
+  }
 }

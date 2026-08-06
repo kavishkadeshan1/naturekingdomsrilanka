@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 
 const testimonials = [
@@ -26,7 +26,7 @@ const testimonials = [
     initials: 'EL',
     rating: 5,
     title: 'Our Most Memorable Holiday Ever',
-    review: 'We visited for our anniversary and stayed in the treehouse suite. Watching elephants from our private deck, eating from the garden, morning yoga sessions — we have never felt more at peace. The staff felt like family. We\'re already planning to return!',
+    review: "We visited for our anniversary and stayed in the treehouse suite. Watching elephants from our private deck, eating from the garden, morning yoga sessions — we have never felt more at peace. The staff felt like family. We're already planning to return!",
     stay: 'Treehouse Suite · 5-night Wellness Package',
   },
   {
@@ -42,28 +42,50 @@ const testimonials = [
 
 export default function TestimonialsSection() {
   const [current, setCurrent] = useState(0);
+  const [fading, setFading] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const next = useCallback(() => setCurrent((c) => (c + 1) % testimonials.length), []);
-  const prev = useCallback(() => setCurrent((c) => (c - 1 + testimonials.length) % testimonials.length), []);
+  const changeTo = useCallback((index: number) => {
+    if (fading) return;
+    setFading(true);
+    setTimeout(() => {
+      setCurrent(index);
+      setFading(false);
+    }, 350);
+  }, [fading]);
+
+  const next = useCallback(() => changeTo((current + 1) % testimonials.length), [current, changeTo]);
+  const prev = useCallback(() => changeTo((current - 1 + testimonials.length) % testimonials.length), [current, changeTo]);
 
   useEffect(() => {
-    const t = setInterval(next, 7000);
-    return () => clearInterval(t);
+    timerRef.current = setInterval(next, 7500);
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, [next]);
 
   const t = testimonials[current];
 
   return (
-    <section style={{ padding: '6rem 2rem', background: 'linear-gradient(135deg, #1B4332 0%, #0f2a1f 100%)', position: 'relative', overflow: 'hidden' }}>
-      {/* Background decoration */}
-      <div style={{ position: 'absolute', top: '-100px', right: '-100px', width: '400px', height: '400px', borderRadius: '50%', background: 'rgba(201, 169, 110, 0.05)', pointerEvents: 'none' }} />
-      <div style={{ position: 'absolute', bottom: '-80px', left: '-80px', width: '300px', height: '300px', borderRadius: '50%', background: 'rgba(45, 106, 79, 0.2)', pointerEvents: 'none' }} />
+    <section style={{
+      padding: '7rem 2rem',
+      background: 'linear-gradient(150deg, #0f2a1f 0%, #1B4332 50%, #0f2a1f 100%)',
+      position: 'relative',
+      overflow: 'hidden',
+    }}>
+      {/* Background decorations */}
+      <div style={{ position: 'absolute', top: '-120px', right: '-120px', width: '450px', height: '450px', borderRadius: '50%', background: 'rgba(201, 169, 110, 0.04)', pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', bottom: '-100px', left: '-100px', width: '360px', height: '360px', borderRadius: '50%', background: 'rgba(45, 106, 79, 0.18)', pointerEvents: 'none' }} />
+      {/* Subtle grid pattern */}
+      <div style={{
+        position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none', opacity: 0.03,
+        backgroundImage: 'radial-gradient(circle, #C9A96E 1px, transparent 1px)',
+        backgroundSize: '40px 40px',
+      }} />
 
-      <div style={{ maxWidth: '900px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+      <div style={{ maxWidth: '860px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
           <span className="section-label" style={{ color: '#C9A96E' }}>Guest Stories</span>
-          <div className="ornament-divider" style={{ maxWidth: '300px', margin: '1rem auto' }}></div>
+          <div className="ornament-divider" style={{ maxWidth: '300px', margin: '1rem auto' }} />
           <h2 className="section-title" style={{ color: 'white' }}>
             What Our Guests <span className="gradient-text">Say</span>
           </h2>
@@ -71,36 +93,41 @@ export default function TestimonialsSection() {
 
         {/* Testimonial card */}
         <div style={{
-          background: 'linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)',
-          backdropFilter: 'blur(12px)',
-          border: '1px solid rgba(255, 255, 255, 0.08)',
-          boxShadow: '0 24px 48px rgba(0,0,0,0.2)',
+          background: 'linear-gradient(170deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          border: '1px solid rgba(255, 255, 255, 0.09)',
+          boxShadow: '0 32px 64px rgba(0,0,0,0.25)',
           borderRadius: '12px',
-          padding: '4rem 3.5rem',
+          padding: 'clamp(2rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3.5rem)',
           position: 'relative',
           textAlign: 'center',
+          // Cross-fade animation
+          opacity: fading ? 0 : 1,
+          transform: fading ? 'translateY(10px) scale(0.99)' : 'translateY(0) scale(1)',
+          transition: 'opacity 0.35s ease, transform 0.35s ease',
         }}>
-          {/* Quote icon */}
-          <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', opacity: 0.03, pointerEvents: 'none' }}>
-            <Quote size={240} color="#C9A96E" />
+          {/* Large decorative quote */}
+          <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', opacity: 0.025, pointerEvents: 'none' }}>
+            <Quote size={220} color="#C9A96E" />
           </div>
 
           {/* Stars */}
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '6px', marginBottom: '2rem', position: 'relative', zIndex: 2 }}>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '5px', marginBottom: '1.75rem', position: 'relative', zIndex: 2 }}>
             {Array.from({ length: t.rating }).map((_, i) => (
-              <Star key={i} size={16} fill="#C9A96E" stroke="none" />
+              <Star key={i} size={18} fill="#C9A96E" stroke="none" />
             ))}
           </div>
 
           {/* Review title */}
           <h3 style={{
             fontFamily: 'Playfair Display, serif',
-            fontSize: '1.8rem',
+            fontSize: 'clamp(1.3rem, 3vw, 1.85rem)',
             fontWeight: 400,
             color: '#ffffff',
             letterSpacing: '0.02em',
             marginBottom: '1.5rem',
-            position: 'relative', zIndex: 2
+            position: 'relative', zIndex: 2,
           }}>
             "{t.title}"
           </h3>
@@ -108,38 +135,43 @@ export default function TestimonialsSection() {
           {/* Review text */}
           <p style={{
             fontFamily: 'Cormorant Garamond, serif',
-            fontSize: '1.3rem',
-            color: 'rgba(255, 255, 255, 0.85)',
+            fontSize: 'clamp(1.05rem, 2vw, 1.3rem)',
+            color: 'rgba(255, 255, 255, 0.82)',
             fontStyle: 'italic',
-            lineHeight: 1.8,
-            maxWidth: '720px',
+            lineHeight: 1.85,
+            maxWidth: '700px',
             margin: '0 auto 2.5rem',
-            position: 'relative', zIndex: 2
+            position: 'relative', zIndex: 2,
           }}>
             "{t.review}"
           </p>
 
           {/* Reviewer info */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', position: 'relative', zIndex: 2 }}>
-            <div style={{ 
-              width: '48px', height: '48px', 
-              borderRadius: '50%', 
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem', position: 'relative', zIndex: 2 }}>
+            <div style={{
+              width: '52px', height: '52px',
+              borderRadius: '50%',
               background: 'linear-gradient(135deg, #C9A96E 0%, #A67C52 100%)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              color: 'white', fontFamily: 'Playfair Display, serif', fontSize: '1.2rem', fontWeight: 600,
-              boxShadow: '0 4px 12px rgba(201, 169, 110, 0.3)',
-              marginBottom: '0.5rem'
+              color: 'white',
+              fontFamily: 'Playfair Display, serif',
+              fontSize: '1.25rem',
+              fontWeight: 600,
+              boxShadow: '0 4px 16px rgba(201, 169, 110, 0.35)',
+              marginBottom: '0.4rem',
+              border: '2px solid rgba(255,255,255,0.15)',
             }}>
               {t.initials}
             </div>
-            <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500, color: 'white', fontSize: '1.05rem', letterSpacing: '0.02em' }}>{t.name}</div>
-            <div style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{t.country}</div>
+            <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: 'white', fontSize: '1rem', letterSpacing: '0.02em' }}>{t.name}</div>
+            <div style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.55)', letterSpacing: '0.06em' }}>{t.country}</div>
             <div style={{
-              marginTop: '1rem',
-              background: 'transparent',
-              borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-              paddingTop: '1rem',
-              fontSize: '0.75rem',
+              marginTop: '0.75rem',
+              padding: '0.4rem 1.25rem',
+              background: 'rgba(201, 169, 110, 0.12)',
+              border: '1px solid rgba(201, 169, 110, 0.25)',
+              borderRadius: '30px',
+              fontSize: '0.72rem',
               color: 'rgba(201, 169, 110, 0.9)',
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
@@ -150,41 +182,47 @@ export default function TestimonialsSection() {
         </div>
 
         {/* Navigation */}
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1.5rem', marginTop: '2rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1.5rem', marginTop: '2.25rem' }}>
           <button
             id="testimonial-prev"
             onClick={prev}
             aria-label="Previous testimonial"
             style={{
-              background: 'rgba(255,255,255,0.08)',
-              border: '1px solid rgba(255,255,255,0.15)',
-              color: 'white',
-              width: '44px', height: '44px',
-              borderRadius: '50%',
-              cursor: 'pointer',
+              background: 'rgba(255,255,255,0.07)',
+              border: '1px solid rgba(255,255,255,0.14)',
+              color: 'white', width: '44px', height: '44px',
+              borderRadius: '50%', cursor: 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              transition: 'all 0.2s',
+              transition: 'all 0.25s ease',
             }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = 'rgba(201, 169, 110, 0.3)'; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.08)'; }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLElement;
+              el.style.background = 'rgba(201, 169, 110, 0.25)';
+              el.style.borderColor = 'rgba(201, 169, 110, 0.5)';
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget as HTMLElement;
+              el.style.background = 'rgba(255,255,255,0.07)';
+              el.style.borderColor = 'rgba(255,255,255,0.14)';
+            }}
           >
             <ChevronLeft size={18} />
           </button>
 
-          <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
             {testimonials.map((_, i) => (
               <button
                 key={i}
-                onClick={() => setCurrent(i)}
+                onClick={() => changeTo(i)}
                 aria-label={`Go to testimonial ${i + 1}`}
                 style={{
-                  width: i === current ? '24px' : '8px',
+                  width: i === current ? '28px' : '8px',
                   height: '8px',
                   borderRadius: '4px',
-                  background: i === current ? '#C9A96E' : 'rgba(255,255,255,0.3)',
+                  background: i === current ? '#C9A96E' : 'rgba(255,255,255,0.28)',
                   border: 'none',
                   cursor: 'pointer',
-                  transition: 'all 0.3s ease',
+                  transition: 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
                   padding: 0,
                 }}
               />
@@ -196,20 +234,33 @@ export default function TestimonialsSection() {
             onClick={next}
             aria-label="Next testimonial"
             style={{
-              background: 'rgba(255,255,255,0.08)',
-              border: '1px solid rgba(255,255,255,0.15)',
-              color: 'white',
-              width: '44px', height: '44px',
-              borderRadius: '50%',
-              cursor: 'pointer',
+              background: 'rgba(255,255,255,0.07)',
+              border: '1px solid rgba(255,255,255,0.14)',
+              color: 'white', width: '44px', height: '44px',
+              borderRadius: '50%', cursor: 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              transition: 'all 0.2s',
+              transition: 'all 0.25s ease',
             }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = 'rgba(201, 169, 110, 0.3)'; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.08)'; }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLElement;
+              el.style.background = 'rgba(201, 169, 110, 0.25)';
+              el.style.borderColor = 'rgba(201, 169, 110, 0.5)';
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget as HTMLElement;
+              el.style.background = 'rgba(255,255,255,0.07)';
+              el.style.borderColor = 'rgba(255,255,255,0.14)';
+            }}
           >
             <ChevronRight size={18} />
           </button>
+        </div>
+
+        {/* Testimonial count indicator */}
+        <div style={{ textAlign: 'center', marginTop: '1rem' }}>
+          <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.15em' }}>
+            {String(current + 1).padStart(2, '0')} / {String(testimonials.length).padStart(2, '0')}
+          </span>
         </div>
       </div>
     </section>

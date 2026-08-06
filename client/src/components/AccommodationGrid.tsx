@@ -18,18 +18,18 @@ interface Accommodation {
 
 const accommodations: Accommodation[] = [
   {
-    id: 'meditation-hut',
-    name: 'Traditional Meditation Hut',
-    category: 'huts',
-    image: '/images/IMG-20260805-WA0025.jpg',
-    description: 'Authentic mud and palm leaf huts offering a deeply immersive connection with nature. Designed for meditation and mindful living.',
+    id: 'morning-glory',
+    name: 'Morning Glory Clay Cabana',
+    category: 'cabana',
+    image: '/images/IMG-20260805-WA0019.jpg',
+    description: 'Eco-friendly accommodation handcrafted from natural and locally sourced materials such as clay, coconut timber, bamboo, and thatched palm leaves.',
     capacity: 2,
-    amenities: ['Nature View', 'Meditation Space', 'Organic Meals', 'WiFi'],
+    amenities: ['Queen-size Bed', 'Mosquito Nets', 'Private Bathroom', 'Nature View', 'Fan'],
     priceForeign: 65,
     priceLocal: 4500,
     currency: 'USD / LKR',
-    badge: 'Most Peaceful',
-    count: 15,
+    badge: 'Signature Cabana',
+    count: 5,
   },
   {
     id: 'treehouse',
